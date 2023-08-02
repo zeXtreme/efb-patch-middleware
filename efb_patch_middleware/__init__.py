@@ -321,11 +321,12 @@ class PatchMiddleware(Middleware):
             patch_attr：需要被覆盖的函数名称
 
         """
-        patch_source = getattr(patch_base, patch_attr)
-        base_crc32 = binascii.crc32(inspect.getsource(patch_source).encode())
-        if base_crc32 != crc32:
-            patch_result.append(f"{patch_attr} CRC32值不匹配，指定的值为 {crc32} ，实际值为 {base_crc32} 。")
-            return
+        # 不进行CRC32校验
+        # patch_source = getattr(patch_base, patch_attr)
+        # base_crc32 = binascii.crc32(inspect.getsource(patch_source).encode())
+        # if base_crc32 != crc32:
+        #     patch_result.append(f"{patch_attr} CRC32值不匹配，指定的值为 {crc32} ，实际值为 {base_crc32} 。")
+        #     return
         setattr(patch_base, patch_attr, f)
 
     def patch(self, func, patch_base, patch_attr, crc32: int):
